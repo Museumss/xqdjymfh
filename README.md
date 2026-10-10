@@ -3,7 +3,7 @@ QQ、微信防红链接生成器
 一个基于 GitHub Pages 的 QQ、微信防红链接生成工具，利用 github.io 域名的天然防红特性，为用户提供安全可靠的链接中转服务。
 
 🔒 密码保护系统
-* 访问控制：默认密码为 taocrypt
+* 访问控制：默认密码为 xqdjwz
 * 会话管理：使用 sessionStorage 保存验证状态
 * 安全验证：防止未授权访问
 🎨 现代化用户界面
@@ -24,7 +24,7 @@ QQ、微信防红链接生成器
 静态项目，支持 GitHub Pages / Cloudflare Pages，不需要后端数据库
 GitHub Pages 部署
 ① Fork 仓库
-1. 打开 https://github.com/
+1. 打开 https://github.com/Museumss/xqdjymfh/
 2. 右上角点 Fork → 复制一份到你自己的 GitHub 账号下
 3. Fork 完成后，进入你账号下的这个仓库
 ② 开启 GitHub Pages
@@ -40,8 +40,6 @@ assets/           # css js 静态资源
 images/           # 图片
 LICENSE/README.md   #其他
 
-## 修改访问密码
-index.html；173行修改底部版权；194行修改访问密码
 
 ## 自定义域名
 1. 还是 Pages 设置页，找到 Custom domain
