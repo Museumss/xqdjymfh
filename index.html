@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>小旗搭建QQ、微信防红链接生成 - xqdjwz</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			#password-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.5);
+				backdrop-filter: blur(8px);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 9999;
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s ease;
+			}
+			
+			#password-overlay.show {
+				opacity: 1;
+				visibility: visible;
+			}
+			
+			.password-container {
+				background: rgba(255, 255, 255, 0.95);
+				backdrop-filter: blur(15px);
+				padding: 50px 40px;
+				border-radius: 20px;
+				text-align: center;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+				max-width: 450px;
+				width: 90%;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				transform: scale(0.9) translateY(20px);
+				transition: all 0.3s ease;
+			}
+			
+			#password-overlay.show .password-container {
+				transform: scale(1) translateY(0);
+			}
+			
+			.password-container h2 {
+				margin: 0 0 15px 0;
+				color: #2c3e50;
+				font-size: 28px;
+				font-weight: 600;
+			}
+			
+			.password-container p {
+				margin: 0 0 30px 0;
+				color: #7f8c8d;
+				font-size: 16px;
+				line-height: 1.5;
+			}
+			
+			.password-container input[type="password"] {
+				width: 100%;
+				padding: 18px 20px;
+				margin: 0 0 25px 0;
+				border: 2px solid #e0e6ed;
+				border-radius: 12px;
+				font-size: 18px;
+				box-sizing: border-box;
+				background: #ffffff;
+				color: #2c3e50;
+				transition: all 0.3s ease;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+			}
+			
+			.password-container input[type="password"]:focus {
+				outline: none;
+				border-color: #667eea;
+				box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+				transform: translateY(-2px);
+			}
+			
+			.password-container input[type="password"]::placeholder {
+				color: #bdc3c7;
+			}
+			
+			.password-container button {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: white;
+				border: none;
+				padding: 18px 40px;
+				border-radius: 12px;
+				font-size: 18px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+				min-width: 140px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 0 auto;
+			}
+			
+			.password-container button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+			}
+			
+			.password-container button:active {
+				transform: translateY(0);
+			}
+			
+			.error-message {
+				color: #e74c3c;
+				margin-top: 15px;
+				font-size: 14px;
+				display: none;
+				background: rgba(231, 76, 60, 0.1);
+				padding: 10px 15px;
+				border-radius: 8px;
+				border: 1px solid rgba(231, 76, 60, 0.2);
+			}
+			
+			/* 响应式设计 */
+			@media (max-width: 480px) {
+				.password-container {
+					padding: 40px 30px;
+					margin: 20px;
+				}
+				
+				.password-container h2 {
+					font-size: 24px;
+				}
+				
+				.password-container input[type="password"] {
+					padding: 16px 18px;
+					font-size: 16px;
+				}
+				
+				.password-container button {
+					padding: 16px 35px;
+					font-size: 16px;
+				}
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+		<header id="header">
+			<h1>QQ、微信防红接口</h1>
+			<p>在下方输入需要跳转的链接，即可生成防红接口。<br>
+				复制下方生成的链接，粘贴到微信或者QQ即可。</p>
+		</header>
+
+		<!-- Signup Form -->
+		<form id="signup-form" method="post">
+			<input type="url" name="url" id="url" placeholder="需要跳转的网址" />
+			<input type="button" value="生成" onclick="build_url()"/>
+		</form>
+		<p id="b_url"></p>
+
+		<script src="./assets/js/build_url.js"></script>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<ul class="icons">
+				<li><a href="https://github.com/xqdjwz/" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+			</ul>
+			<ul class="copyright">
+				<li>&copy; Powered by <a href="https://xqdj.site/" target="_blank">小旗搭建</a></li>
+			</ul>
+		</footer>
+
+		<!-- Password Modal -->
+		<div id="password-overlay">
+			<div class="password-container">
+				<h2>🔒 访问验证</h2>
+				<p>请输入访问密码以继续</p>
+				<input type="password" id="password-input" placeholder="请输入密码" />
+				<button onclick="verifyPassword()">验证</button>
+				<div id="error-message" class="error-message">密码错误，请重试</div>
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/main.js"></script>
+		<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"K8YSQIj3WDtj9gG6",ck:"K8YSQIj3WDtj9gG6"})</script>
+		
+		<script>
+			// 密码验证功能
+			const CORRECT_PASSWORD = 'xqdjwz';
+			
+			// 检查是否已经验证过
+			function checkAuthStatus() {
+				const isAuthenticated = sessionStorage.getItem('authenticated');
+				if (isAuthenticated === 'true') {
+					// 已验证，隐藏弹窗
+					hidePasswordModal();
+				} else {
+					// 未验证，显示弹窗
+					showPasswordModal();
+				}
+			}
+			
+			// 显示密码弹窗
+			function showPasswordModal() {
+				const overlay = document.getElementById('password-overlay');
+				overlay.classList.add('show');
+				document.getElementById('password-input').focus();
+			}
+			
+			// 隐藏密码弹窗
+			function hidePasswordModal() {
+				const overlay = document.getElementById('password-overlay');
+				overlay.classList.remove('show');
+			}
+			
+			// 验证密码
+			function verifyPassword() {
+				const password = document.getElementById('password-input').value;
+				const errorMessage = document.getElementById('error-message');
+				
+				if (password === CORRECT_PASSWORD) {
+					// 密码正确，保存验证状态
+					sessionStorage.setItem('authenticated', 'true');
+					hidePasswordModal();
+					// 清除错误信息
+					errorMessage.style.display = 'none';
+				} else {
+					// 密码错误，显示错误信息
+					errorMessage.style.display = 'block';
+					document.getElementById('password-input').value = '';
+					document.getElementById('password-input').focus();
+				}
+			}
+			
+			// 回车键验证
+			document.getElementById('password-input').addEventListener('keypress', function(e) {
+				if (e.key === 'Enter') {
+					verifyPassword();
+				}
+			});
+			
+			// 点击弹窗外部关闭弹窗（可选功能）
+			document.getElementById('password-overlay').addEventListener('click', function(e) {
+				if (e.target === this) {
+					// 点击背景时不允许关闭，必须输入正确密码
+					// 可以取消注释下面这行来允许点击外部关闭
+					// hidePasswordModal();
+				}
+			});
+			
+			// 页面加载时检查验证状态
+			document.addEventListener('DOMContentLoaded', function() {
+				checkAuthStatus();
+			});
+		</script>
+	</body>
+</html>
